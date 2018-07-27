@@ -1,0 +1,2 @@
+#PBS -l nodes=4:skl
+(cd ~ && mnist/train.sh > mnist/q_mnist.log 2>&1)

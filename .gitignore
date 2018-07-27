@@ -103,3 +103,6 @@ venv.bak/
 # mypy
 .mypy_cache/
 .idea
+q_mnist.log
+data/
+mnist_convnet_model/

@@ -137,7 +137,8 @@ def cnn_model_fn(features, labels, mode):
             learning_rate=0.001 * hvd.size(), momentum=0.9)
 
         # Horovod: add Horovod Distributed Optimizer.
-        optimizer = hvd.DistributedOptimizer(optimizer)
+        if hvd.size() > 1:
+            optimizer = hvd.DistributedOptimizer(optimizer)
 
         train_op = optimizer.minimize(
             loss=loss,
@@ -214,14 +215,6 @@ def main(unused_argv):
         steps=args.iterations // args.batch_size // hvd.size(),
         hooks=hooks)
 
-    # Evaluate the model and print results
-    eval_input_fn = tf.estimator.inputs.numpy_input_fn(
-        x={"x": eval_data},
-        y=eval_labels,
-        num_epochs=1,
-        shuffle=False)
-    eval_results = mnist_classifier.evaluate(input_fn=eval_input_fn)
-    logging.info(eval_results)
     if hvd.rank() == 0:
         delta = datetime.datetime.now() - t
         msecs = delta.total_seconds() * 1000

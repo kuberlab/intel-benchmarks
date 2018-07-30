@@ -25,5 +25,5 @@ local ContentDisposition = "Content-Disposition: form-data; name=\"bytes_audio\"
 wrk.method = "POST"
 wrk.headers["Content-Type"] = "multipart/form-data; boundary=" .. Boundary
 wrk.headers["Proxy-Port"] = "9000"
-wrk.headers["Proxy-Addr"] = "10.5.2.2"
+wrk.headers["Proxy-Addr"] = "127.0.0.1"
 wrk.body = BodyBoundary .. CRLF .. ContentDisposition .. CRLF .. CRLF .. FileBody .. CRLF .. BodyBoundary .. CRLF .. DispositionRaw.. CRLF .. CRLF .. Raw .. CRLF ..  LastBoundary
